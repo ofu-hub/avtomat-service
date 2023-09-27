@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvtomatService", "AvtomatService\AvtomatService.csproj", "{F3623BEE-6796-43BF-9B74-D8AEB529DBE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvtomatService.Models", "AvtomatService.Models\AvtomatService.Models.csproj", "{7BE821CA-0E24-4571-ABC8-19A38D329588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvtomatService.Contracts", "AvtomatService.Contracts\AvtomatService.Contracts.csproj", "{FEFDEF00-6670-4E48-A0CF-19A757B89372}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3623BEE-6796-43BF-9B74-D8AEB529DBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3623BEE-6796-43BF-9B74-D8AEB529DBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3623BEE-6796-43BF-9B74-D8AEB529DBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3623BEE-6796-43BF-9B74-D8AEB529DBE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE821CA-0E24-4571-ABC8-19A38D329588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE821CA-0E24-4571-ABC8-19A38D329588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE821CA-0E24-4571-ABC8-19A38D329588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE821CA-0E24-4571-ABC8-19A38D329588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFDEF00-6670-4E48-A0CF-19A757B89372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFDEF00-6670-4E48-A0CF-19A757B89372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFDEF00-6670-4E48-A0CF-19A757B89372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFDEF00-6670-4E48-A0CF-19A757B89372}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
