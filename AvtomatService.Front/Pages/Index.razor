@@ -1,0 +1,40 @@
+﻿@page "/"
+@using AvtomatService.Contracts.Warehouse
+@inject HttpClient HttpClient
+
+<h3>Управление складами и товарами</h3>
+
+<p>Кладовщик: @User</p>
+
+@foreach (var warehouse in _warehouses)
+{
+    <h4>@warehouse.Title</h4>
+    @foreach (var product in warehouse.Products)
+    {
+        <div>@product.Title: @product.Quantity</div>
+        <button @onclick="(() => IncreaseProductQuantity(warehouse.Id, product.Id))">+</button>
+        <button @onclick="(() => DecreaseProductQuantity(warehouse.Id, product.Id))">-</button>
+    }
+}
+
+@code {
+    private List<WarehouseDetailedDto>? _warehouses = new List<WarehouseDetailedDto>();
+    private string User = "Дмитрий";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("api/Warehouses") ?? new List<WarehouseDetailedDto>();
+    }
+
+    private async Task IncreaseProductQuantity(Guid warehouseId, Guid productId)
+    {
+        await HttpClient.PutAsJsonAsync($"/api/warehouse/product/{productId}", 1);
+        // warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("/api/warehouse");
+    }
+
+    private async Task DecreaseProductQuantity(Guid warehouseId, Guid productId)
+    {
+        await HttpClient.PutAsJsonAsync($"/api/warehouse/product/{productId}", -1);
+        // warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("/api/warehouse");
+    }
+}
