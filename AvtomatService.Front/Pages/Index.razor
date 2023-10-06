@@ -2,20 +2,69 @@
 @using AvtomatService.Contracts.Warehouse
 @inject HttpClient HttpClient
 
-<h3>Управление складами и товарами</h3>
+<div class="m-5">
+    <h2>Управление складами и товарами</h2>
 
-<p>Кладовщик: @User</p>
+    <h3>Кладовщик: @User</h3>
+    
+    <button type="button" class="btn btn-success">Добавить склад</button>
 
-@foreach (var warehouse in _warehouses)
-{
-    <h4>@warehouse.Title</h4>
-    @foreach (var product in warehouse.Products)
+    @if (_warehouses != null)
     {
-        <div>@product.Title: @product.Quantity</div>
-        <button @onclick="(() => IncreaseProductQuantity(warehouse.Id, product.Id))">+</button>
-        <button @onclick="(() => DecreaseProductQuantity(warehouse.Id, product.Id))">-</button>
+        @foreach (var warehouse in _warehouses)
+        {
+            <br/>
+            <div id="@warehouse.Id">
+                <div>
+                    <h4>Наименование склада: @warehouse.Title. Топ-3 товара</h4>
+                    <button type="button" class="btn btn-info">Выбрать склад</button>
+                    <button type="button" class="btn btn-success">Добавить продукт</button>
+                </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var product in warehouse.Products.OrderByDescending(p => p.Quantity).Take(3))
+                {
+                    <tr>
+                        <td>
+                            <p>@product.Title</p>
+                        </td>
+                        <td>
+                            <p>@product.Quantity</p>
+                        </td>
+                        <td>
+                            @if (product.Quantity != 0)
+                            {
+                                <button type="button" class="btn btn-danger" @onclick="(() => ChangeQuantity(product.Id, -1))">Уменьшить товар</button>
+                                <button type="button" class="btn btn-success" @onclick="(() => ChangeQuantity(product.Id, 1))">Увеличить товар</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning" @onclick="(() => DeleteProduct(product.Id))">Удалить товар</button>
+                                <button type="button" class="btn btn-success" @onclick="(() => ChangeQuantity(product.Id, 1))">Увеличить товар</button>
+                            }
+                            <button type="button" class="btn btn-info">Обновить данные</button>
+                            <button type="button" class="btn btn-info">Подробнее о товаре</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            </div>
+        }
     }
-}
+    else
+    {
+        <p>Нет доступных складов.</p>
+        <button type="button" class="btn btn-success">Создать склад</button>
+    }
+</div>
 
 @code {
     private List<WarehouseDetailedDto>? _warehouses = new List<WarehouseDetailedDto>();
@@ -26,15 +75,15 @@
         _warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("api/Warehouses") ?? new List<WarehouseDetailedDto>();
     }
 
-    private async Task IncreaseProductQuantity(Guid warehouseId, Guid productId)
+    private async Task ChangeQuantity(Guid productId, int quantityChange)
     {
-        await HttpClient.PutAsJsonAsync($"/api/warehouse/product/{productId}", 1);
-        // warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("/api/warehouse");
+        await HttpClient.PostAsJsonAsync($"api/Products/{productId}/changequantity", quantityChange);
+        _warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("api/Warehouses") ?? new List<WarehouseDetailedDto>();
     }
-
-    private async Task DecreaseProductQuantity(Guid warehouseId, Guid productId)
+    
+    private async Task DeleteProduct(Guid productId)
     {
-        await HttpClient.PutAsJsonAsync($"/api/warehouse/product/{productId}", -1);
-        // warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("/api/warehouse");
+        await HttpClient.DeleteAsync($"api/Products/{productId}");
+        _warehouses = await HttpClient.GetFromJsonAsync<List<WarehouseDetailedDto>>("api/Warehouses") ?? new List<WarehouseDetailedDto>();
     }
 }

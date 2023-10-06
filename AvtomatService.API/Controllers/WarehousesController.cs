@@ -55,7 +55,7 @@ public class WarehousesController : ControllerBase
     /// <param name="id">Идентификатор</param>
     /// <returns></returns>
     [Route("{id:guid}"), HttpGet]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         var warehouse = await _context.Warehouses.Where(w => w.Id == id).Select(w => new WarehouseDetailedDto()
         {
@@ -119,7 +119,7 @@ public class WarehousesController : ControllerBase
     /// <param name="id">Идентификатор</param>
     /// <returns></returns>
     [Route("{id:guid}"), HttpDelete]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var warehouse = await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
         
@@ -130,37 +130,5 @@ public class WarehousesController : ControllerBase
         await _context.SaveChangesAsync();
         
         return NoContent();
-    }
-
-    [HttpGet("{warehouseId}/products")]
-    public IEnumerable<Product> GetProducts(Guid warehouseId)
-    {
-        return _context.Products.Where(p => p.WarehouseId == warehouseId).ToList();
-    }
-
-    [HttpPost("{productId}/increase")]
-    public IActionResult IncreaseProductQuantity(Guid productId)
-    {
-        var product = _context.Products.Find(productId);
-        if (product != null)
-        {
-            product.Quantity++;
-            _context.SaveChanges();
-            return Ok();
-        }
-        return NotFound();
-    }
-
-    [HttpPost("{productId}/decrease")]
-    public IActionResult DecreaseProductQuantity(Guid productId)
-    {
-        var product = _context.Products.Find(productId);
-        if (product != null && product.Quantity > 0)
-        {
-            product.Quantity--;
-            _context.SaveChanges();
-            return Ok();
-        }
-        return NotFound();
     }
 }

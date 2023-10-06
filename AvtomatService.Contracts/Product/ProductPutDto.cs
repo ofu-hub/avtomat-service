@@ -23,4 +23,9 @@ public class ProductPutDto
     /// </summary>
     [Required(ErrorMessage = "Не выбран склад, где будет храниться товар!")]
     public Guid WarehouseId { get; set; }
+    
+    /// <summary>
+    /// Количество товара
+    /// </summary>
+    public double? Quantity { get; set; }
 }

@@ -33,11 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\AvtomatService.Contracts\AvtomatService.Contracts.csproj" />
+      <ProjectReference Include="..\AvtomatService.Front\AvtomatService.Front.csproj" />
       <ProjectReference Include="..\AvtomatService.Models\AvtomatService.Models.csproj" />
     </ItemGroup>
 
